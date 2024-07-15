@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: receptacle-smtp
+
+smtp:
+  server-name: default.smtp.server
+  port: 25
+
