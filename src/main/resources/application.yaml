@@ -1,8 +1,22 @@
 spring:
   application:
     name: receptacle-smtp
-
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      type-mapping: com.example.receptacle.event.EmailEvent
+  modulith:
+    events:
+      externalization:
+        enabled:true
 smtp:
   server-name: default.smtp.server
   port: 25
+
+app:
+  event:
+    enabled: false
+    ssl: false
 

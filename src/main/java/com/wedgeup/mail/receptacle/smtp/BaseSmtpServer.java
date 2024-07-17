@@ -3,6 +3,8 @@ package com.wedgeup.mail.receptacle.smtp;
 import com.wedgeup.mail.receptacle.smtp.command.CommandHandler;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.net.ssl.SSLContext;
@@ -43,12 +45,37 @@ public class BaseSmtpServer implements SmtpServer {
     private InetAddress bindAddress = null; // default to all interfaces
     private int port = 25; // default to 25
     private String hostName; // defaults to a lookup of the local address
+    /**
+     * -- GETTER --
+     *  The string reported to the public as the software running here. Defaults to
+     *  SubEthaSTP and the version number.
+     */
+    @Getter
     private final String softwareName;
+    /**
+     * -- GETTER --
+     * the factory for message handlers, cannot be null
+     */
+    @Getter
     private final MessageHandlerFactory messageHandlerFactory;
+    /**
+     * -- GETTER --
+     * the factory for auth handlers, or null if no such factory has been
+     * set.
+     */
+    @Getter
     private AuthenticationHandlerFactory authenticationHandlerFactory;
+    /**
+     * -- GETTER --
+     *  The CommandHandler manages handling the SMTP commands such as QUIT, MAIL,
+     *  RCPT, DATA, etc.
+     * An instance of CommandHandler
+     */
+    @Getter
     private final CommandHandler commandHandler;
     private Thread serverThread;
     private BaseSmtpServerRunnable baseSmtpServerRunnable;
+    @Getter
     private final boolean virtualThreadsEnabled;
 
     /**
@@ -74,6 +101,8 @@ public class BaseSmtpServer implements SmtpServer {
      * If true, this server will accept no mail until auth succeeded; ignored if no
      * AuthenticationHandlerFactory has been set
      */
+    @Getter
+    @Setter
     private boolean requireAuth = false;
 
     /**
@@ -83,9 +112,13 @@ public class BaseSmtpServer implements SmtpServer {
      * at that time. (RFC 1870) Default is 0. Note this doesn't actually enforce any
      * limits on the message being read; you must do that yourself when reading
      * data.
+     * -- GETTER --
+     * the maxMessageSize
      */
+    @Getter
     private long maxMessageSizeInBytes = 0;
 
+    @Getter
     private final SessionIdFactory sessionIdFactory;
 
     /**
@@ -138,10 +171,6 @@ public class BaseSmtpServer implements SmtpServer {
         return this.hostName == null ? UNKNOWN_HOSTNAME : this.hostName;
     }
 
-    public boolean isVirtualThreadsEnabled() {
-        return virtualThreadsEnabled;
-    }
-
     /**
      * null means all interfaces
      */
@@ -159,20 +188,11 @@ public class BaseSmtpServer implements SmtpServer {
     }
 
     /**
-     * The string reported to the public as the software running here. Defaults to
-     * SubEthaSTP and the version number.
-     */
-    public String getSoftwareName() {
-        return this.softwareName;
-    }
-
-    /**
      * Call this method to get things rolling after instantiating the SMTPServer.
      * <p>
      * An SMTPServer which has been shut down, must not be reused.
      */
     @Override
-    @PostConstruct
     public synchronized void start() {
         LOG.info("SMTP server {} starting", getDisplayableLocalSocketAddress());
         if (this.started) {
@@ -199,7 +219,6 @@ public class BaseSmtpServer implements SmtpServer {
      * Shut things down gracefully.
      */
     @Override
-    @PreDestroy
     public synchronized void stop() {
         LOG.info("SMTP server {} stopping...", getDisplayableLocalSocketAddress());
         if (this.baseSmtpServerRunnable != null) {
@@ -263,33 +282,10 @@ public class BaseSmtpServer implements SmtpServer {
         return (this.bindAddress == null ? "*" : this.bindAddress) + ":" + this.port;
     }
 
-    /**
-     * @return the factory for message handlers, cannot be null
-     */
-    public MessageHandlerFactory getMessageHandlerFactory() {
-        return this.messageHandlerFactory;
-    }
-
-    /**
-     * @return the factory for auth handlers, or null if no such factory has been
-     * set.
-     */
-    public AuthenticationHandlerFactory getAuthenticationHandlerFactory() {
-        return this.authenticationHandlerFactory;
-    }
-
+    // :::Note: We may need to revive auth mechanism at some point
+    @SuppressWarnings("unused")
     public void setAuthenticationHandlerFactory(final AuthenticationHandlerFactory fact) {
         this.authenticationHandlerFactory = fact;
-    }
-
-    /**
-     * The CommandHandler manages handling the SMTP commands such as QUIT, MAIL,
-     * RCPT, DATA, etc.
-     *
-     * @return An instance of CommandHandler
-     */
-    public CommandHandler getCommandHandler() {
-        return this.commandHandler;
     }
 
     /**
@@ -334,32 +330,12 @@ public class BaseSmtpServer implements SmtpServer {
         return requireAuth;
     }
 
-    /**
-     * @param requireAuth true for mandatory smtp authentication, i.e. no mail will
-     *                    be accepted until authentication succeeds. Don't forget to
-     *                    set AuthenticationHandlerFactory to allow client
-     *                    authentication. Defaults to false.
-     */
-    public void setRequireAuth(final boolean requireAuth) {
-        this.requireAuth = requireAuth;
-    }
-
-    /**
-     * @return the maxMessageSize
-     */
-    public long getMaxMessageSizeInBytes() {
-        return maxMessageSizeInBytes;
-    }
 
     /**
      * @param maxMessageSizeInBytes the maxMessageSize to set
      */
     public void setMaxMessageSizeInBytes(final long maxMessageSizeInBytes) {
         this.maxMessageSizeInBytes = maxMessageSizeInBytes;
-    }
-
-    public SessionIdFactory getSessionIdFactory() {
-        return sessionIdFactory;
     }
 
 }

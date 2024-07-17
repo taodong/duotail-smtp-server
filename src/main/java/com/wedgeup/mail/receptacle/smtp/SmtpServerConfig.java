@@ -3,11 +3,9 @@ package com.wedgeup.mail.receptacle.smtp;
 import com.wedgeup.mail.receptacle.smtp.command.CommandHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.util.StringUtils;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -27,8 +25,7 @@ import java.util.List;
 public class SmtpServerConfig {
 
     @Bean
-    public SmtpServer smtpServer(BuildProperties buildProperties,
-                                 ResourceLoader resourceLoader,
+    public SmtpServer smtpServer(ResourceLoader resourceLoader,
                                  SmtpConfigurationProperties smtpConfigurationProperties,
                                  List<MessageListener> messageListeners,
                                  CommandHandler commandHandler,
