@@ -1,4 +1,4 @@
-# receptacle-smtp-server
+# duotail-smtp-server
 A smtp server unconditionally accepts any incoming messages
 
 ## Target
