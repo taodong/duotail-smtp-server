@@ -1,8 +1,11 @@
 package com.duotail.smtp.server.smtp;
 
+import com.duotail.smtp.common.event.support.RawEmailDataLogger;
+import com.duotail.smtp.common.event.support.RawEmailDataProcessor;
 import com.duotail.smtp.server.smtp.command.CommandHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
@@ -74,6 +77,12 @@ public class SmtpServerConfig {
     @Bean
     public SessionIdFactory sessionIdFactory(){
         return new TimeBasedSessionIdFactory();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public RawEmailDataProcessor rawEmailDataOperation(){
+        return new RawEmailDataLogger();
     }
 
 }

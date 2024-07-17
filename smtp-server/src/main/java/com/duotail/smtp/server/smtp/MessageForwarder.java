@@ -1,5 +1,6 @@
 package com.duotail.smtp.server.smtp;
 
+import com.duotail.smtp.common.event.model.RawEmailData;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +20,17 @@ public class MessageForwarder {
         this.javaMailSenderFacade = javaMailSenderFacade;
     }
 
-    public void forward(RawData rawData){
+    public void forward(RawEmailData rawEmailData){
         if(configurationProperties.isForwardEmails()){
             LOG.info("Forward message to configured target email system");
             try {
-                javaMailSenderFacade.send(rawData.toMimeMessage());
+                javaMailSenderFacade.send(rawEmailData.getMimeMessage());
             } catch (MessagingException e) {
                 LOG.warn("Failed to convert raw data to MimeMessage; fall back to simple message forwarding", e);
                 var message = new SimpleMailMessage();
-                message.setFrom(rawData.getFrom());
-                message.setTo(rawData.getTo());
-                message.setText(rawData.getContentAsString());
+                message.setFrom(rawEmailData.getFrom());
+                message.setTo(rawEmailData.getTo());
+                message.setText(rawEmailData.getContentAsString());
                 javaMailSenderFacade.send(message);
             }
         }

@@ -1,12 +1,6 @@
 spring:
   application:
-    name: duotail-smtp
-  kafka:
-    bootstrap-servers: localhost:9092
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-      type-mapping: com.example.receptacle.event.EmailEvent
+    name: duotail-smtp-server
 
 smtp:
   server-name: default.smtp.server
