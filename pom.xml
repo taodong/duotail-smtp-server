@@ -11,6 +11,7 @@
 	<groupId>com.wedgeup</groupId>
 	<artifactId>receptacle-smtp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 	<name>receptacle-smtp</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -20,6 +21,10 @@
 	<developers>
 		<developer/>
 	</developers>
+	<modules>
+		<module>common</module>
+		<module>smtp</module>
+	</modules>
 	<scm>
 		<connection/>
 		<developerConnection/>
@@ -71,11 +76,6 @@
 		<dependency>
 			<groupId>org.springframework.modulith</groupId>
 			<artifactId>spring-modulith-actuator</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.modulith</groupId>
-			<artifactId>spring-modulith-events-kafka</artifactId>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
