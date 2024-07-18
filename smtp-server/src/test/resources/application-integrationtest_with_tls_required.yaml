@@ -1,0 +1,16 @@
+server:
+  port: 0
+
+management:
+  server:
+    port: -1
+
+smtp:
+  port: ${random.int[1024,65536]}
+  blockedRecipientAddresses:
+    - blocked@example.com
+  requireTLS: true
+  tls-keystore:
+    location: classpath:tls-keystore.p12
+    password: changeit
+    type: PKCS12

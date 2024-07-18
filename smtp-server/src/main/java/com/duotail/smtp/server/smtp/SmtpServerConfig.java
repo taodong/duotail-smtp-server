@@ -81,7 +81,7 @@ public class SmtpServerConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public RawEmailDataProcessor rawEmailDataOperation(){
+    public RawEmailDataProcessor rawEmailDataProcessor(){
         return new RawEmailDataLogger();
     }
 

@@ -1,6 +1,5 @@
 package com.duotail.smtp.server.smtp;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,7 +9,6 @@ public class BlockedRecipientAddresses {
 
     final List<String> blockedAddresses;
 
-    @Autowired
     public BlockedRecipientAddresses(SmtpConfigurationProperties smtpConfigurationProperties) {
         this.blockedAddresses = smtpConfigurationProperties.getBlockedRecipientAddresses()
                 .stream()

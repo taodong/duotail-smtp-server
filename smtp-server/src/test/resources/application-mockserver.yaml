@@ -1,0 +1,9 @@
+server:
+  port: 0
+
+management:
+  server:
+    port: -1
+
+smtp:
+  port: ${random.int[1024,65536]}

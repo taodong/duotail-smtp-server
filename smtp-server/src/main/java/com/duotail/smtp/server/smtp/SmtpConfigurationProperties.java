@@ -5,14 +5,14 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.util.unit.DataSize;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Configuration
 @ConfigurationProperties(prefix = "smtp")
 @Data
 public class SmtpConfigurationProperties {

@@ -21,17 +21,17 @@ import java.util.UUID;
 public class BaseMessageListener implements MessageListener {
     private final BlockedRecipientAddresses blockedRecipientAddresses;
     private final MessageForwarder messageForwarder;
-    private final RawEmailDataProcessor emailProcessor;
+    private final RawEmailDataProcessor rawEmailDataProcessor;
     private final ApplicationEventPublisher applicationEventPublisher;
 
 
     @Autowired
     public BaseMessageListener(BlockedRecipientAddresses blockedRecipientAddresses,
-                               MessageForwarder messageForwarder, RawEmailDataProcessor emailProcessor, ApplicationEventPublisher applicationEventPublisher) {
+                               MessageForwarder messageForwarder, RawEmailDataProcessor rawEmailDataProcessor, ApplicationEventPublisher applicationEventPublisher) {
         this.blockedRecipientAddresses = blockedRecipientAddresses;
         this.messageForwarder = messageForwarder;
 
-        this.emailProcessor = emailProcessor;
+        this.rawEmailDataProcessor = rawEmailDataProcessor;
         this.applicationEventPublisher = applicationEventPublisher;
     }
 
@@ -44,7 +44,7 @@ public class BaseMessageListener implements MessageListener {
     public void deliver(String sender, String recipient, InputStream data) throws IOException {
         LOG.debug("Received email from {} for {}", sender, recipient);
         var rawData = new RawEmailData(sender, recipient, IOUtils.toByteArray(data));
-        emailProcessor.save(rawData);
+        rawEmailDataProcessor.save(rawData);
         applicationEventPublisher.publishEvent(new EmailEvent(UUID.randomUUID().toString(), sender, recipient));
     }
 }

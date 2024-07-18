@@ -232,6 +232,9 @@ public class Session implements Runnable, MessageContext {
                 LOG.debug(msg);
                 this.sendResponse(msg);
             }
+            catch (UnknownCommandException | InvalidCommandNameException e) {
+                this.sendResponse("503 " + e.getMessage());
+            }
         }
     }
 

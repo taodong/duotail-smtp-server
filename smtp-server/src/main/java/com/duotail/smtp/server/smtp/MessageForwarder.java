@@ -3,7 +3,6 @@ package com.duotail.smtp.server.smtp;
 import com.duotail.smtp.common.event.model.RawEmailData;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ public class MessageForwarder {
     private final SmtpConfigurationProperties configurationProperties;
     private final JavaMailSenderFacade javaMailSenderFacade;
 
-    @Autowired
+
     public MessageForwarder(SmtpConfigurationProperties configurationProperties, JavaMailSenderFacade javaMailSenderFacade) {
         this.configurationProperties = configurationProperties;
         this.javaMailSenderFacade = javaMailSenderFacade;

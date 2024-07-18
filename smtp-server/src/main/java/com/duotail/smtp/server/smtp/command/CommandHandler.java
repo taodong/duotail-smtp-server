@@ -14,13 +14,11 @@ public class CommandHandler {
         this.commandRegistry = commandRegistry;
     }
 
-    public void handleCommand(final Session context, final String commandString) throws IOException {
+    public void handleCommand(final Session context, final String commandString) throws UnknownCommandException, InvalidCommandNameException, IOException {
         final Command command;
-        try {
-            command = commandRegistry.getCommandFromString(commandString);
-        } catch (UnknownCommandException | InvalidCommandNameException e) {
-            throw new IOException("Bad or unknown command", e);
-        }
+
+        command = commandRegistry.getCommandFromString(commandString);
+
         command.execute(commandString, context);
     }
 
