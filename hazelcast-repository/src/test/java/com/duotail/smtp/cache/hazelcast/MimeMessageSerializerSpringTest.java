@@ -44,13 +44,18 @@ public class MimeMessageSerializerSpringTest {
         message.addRecipients(MimeMessage.RecipientType.TO, new Address[]{new InternetAddress("tao_suffix2@duotail.com")});
         message.setSubject("test subject");
         message.setText("test text");
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        message.writeTo(bos);
-        MimeMessage toSerialize = javaMailSender.createMimeMessage(
-                new ByteArrayInputStream(bos.toByteArray())
-        );
-        hazelcastInstance.getMap("test").put("test", toSerialize);
+        try (final ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            message.writeTo(bos);
+            MimeMessage toSerialize = javaMailSender.createMimeMessage(
+                    new ByteArrayInputStream(bos.toByteArray())
+            );
+            hazelcastInstance.getMap("test").put("test", toSerialize);
+        }
+
         MimeMessage result = (MimeMessage) hazelcastInstance.getMap("test").get("test");
-        assertEquals("test subject", toSerialize.getSubject());
+        assertEquals("test subject", message.getSubject());
+        assertEquals("test text", message.getContent());
+        assertEquals("tao_suffix1@duotail.com", message.getFrom()[0].toString());
+        assertEquals("tao_suffix2@duotail.com", message.getRecipients(MimeMessage.RecipientType.TO)[0].toString());
     }
 }
