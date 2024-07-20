@@ -5,7 +5,8 @@
 	<modules>
 		<module>smtp-common</module>
 		<module>smtp-server</module>
-	</modules>
+        <module>hazelcast-repository</module>
+    </modules>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -18,12 +19,6 @@
 	<packaging>pom</packaging>
 	<name>duotail-smtp</name>
 	<description>DuoTail SMTP Server</description>
-	<licenses>
-		<license>
-			<name>GNU General Public License v3.0</name>
-			<url>https://github.com/taodong/data-conjurer/blob/main/LICENSE</url>
-		</license>
-	</licenses>
 
 	<developers>
 		<developer>
@@ -38,6 +33,7 @@
 		<spring-modulith.version>1.2.1</spring-modulith.version>
 		<commons.io.version>2.16.1</commons.io.version>
 		<commons.lang3.version>3.14.0</commons.lang3.version>
+		<hazelcast.version>5.4.0</hazelcast.version>
 	</properties>
 
 	<dependencyManagement>
@@ -48,6 +44,11 @@
 				<version>${spring-modulith.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.hazelcast</groupId>
+				<artifactId>hazelcast-spring</artifactId>
+				<version>${hazelcast.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>

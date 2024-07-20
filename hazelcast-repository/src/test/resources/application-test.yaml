@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  mail:
+    host: localhost
+    port: 25
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+  hazelcast:
+    config: classpath:hazelcast.yaml

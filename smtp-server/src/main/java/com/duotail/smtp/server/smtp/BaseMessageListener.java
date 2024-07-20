@@ -20,16 +20,15 @@ import java.util.UUID;
 @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = IOException.class)
 public class BaseMessageListener implements MessageListener {
     private final BlockedRecipientAddresses blockedRecipientAddresses;
-    private final MessageForwarder messageForwarder;
+
     private final RawEmailDataProcessor rawEmailDataProcessor;
     private final ApplicationEventPublisher applicationEventPublisher;
 
 
     @Autowired
     public BaseMessageListener(BlockedRecipientAddresses blockedRecipientAddresses,
-                               MessageForwarder messageForwarder, RawEmailDataProcessor rawEmailDataProcessor, ApplicationEventPublisher applicationEventPublisher) {
+                               RawEmailDataProcessor rawEmailDataProcessor, ApplicationEventPublisher applicationEventPublisher) {
         this.blockedRecipientAddresses = blockedRecipientAddresses;
-        this.messageForwarder = messageForwarder;
 
         this.rawEmailDataProcessor = rawEmailDataProcessor;
         this.applicationEventPublisher = applicationEventPublisher;
