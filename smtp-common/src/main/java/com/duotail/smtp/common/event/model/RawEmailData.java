@@ -14,12 +14,14 @@ import java.util.Properties;
 @Getter
 @AllArgsConstructor
 public class RawEmailData {
+    private final String id;
     private final String from;
     private final String to;
     private final byte[] content;
     private MimeMessage mimeMessage;
 
-    public RawEmailData(String from, String to, byte[] content) {
+    public RawEmailData(String id, String from, String to, byte[] content) {
+        this.id = id;
         this.from = from;
         this.to = to;
         this.content = content;

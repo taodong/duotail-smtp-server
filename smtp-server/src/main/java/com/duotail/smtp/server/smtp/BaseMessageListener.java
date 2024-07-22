@@ -42,8 +42,8 @@ public class BaseMessageListener implements MessageListener {
     @Override
     public void deliver(String sender, String recipient, InputStream data) throws IOException {
         LOG.debug("Received email from {} for {}", sender, recipient);
-        var rawData = new RawEmailData(sender, recipient, IOUtils.toByteArray(data));
+        var rawData = new RawEmailData(UUID.randomUUID().toString(), sender, recipient, IOUtils.toByteArray(data));
         rawEmailDataProcessor.save(rawData);
-        applicationEventPublisher.publishEvent(new EmailEvent(UUID.randomUUID().toString(), sender, recipient));
+        applicationEventPublisher.publishEvent(new EmailEvent(rawData.getId(), sender, recipient));
     }
 }
